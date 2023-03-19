@@ -1,51 +1,64 @@
 package pl.coderslab.controller;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import pl.coderslab.dao.AuthorDao;
-import pl.coderslab.dao.BookDao;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.entity.Author;
-import pl.coderslab.entity.Book;
+import pl.coderslab.service.AuthorService;
 
-@Controller
-public class AuthorControler {
-    private AuthorDao authorDao;
+import java.util.Objects;
 
- public AuthorControler(AuthorDao authorDao){
-     this.authorDao=authorDao;
- }
+@RestController
+class AuthorController {
 
-    @RequestMapping(value = "/author/add", produces = "text/plain;charset=utf-8")
-    @ResponseBody
-    public String hello() {
-        Author author=new Author();
-        author.setFirstName("firstName");
-        author.setLastName("Nwak");
-        authorDao.saveAuthor(author);
-        return "Id autora książki to:"
-                + author.getId();
+    private final AuthorService authorService;
+
+    AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
     }
-    @RequestMapping("/author/get/{id}")
-    @ResponseBody
-    public String getAuthor(@PathVariable long id) {
-        Author author=authorDao.findById(id);
-        return author.toString();
+
+    // creates author
+    @PostMapping(path = "/author")
+    void save(@RequestParam String firstName, @RequestParam String lastName) {
+
+        Author author = new Author();
+
+        author.setFirstName(firstName);
+        author.setLastName(lastName);
+
+        authorService.save(author);
     }
-    @RequestMapping("/author/update/{id}/{firstName}")
-    @ResponseBody
-    public String updateBook(@PathVariable long id, @PathVariable String firstName ) {
-        Author author=authorDao.findById(id);
-        author.setFirstName("nowak");
-        authorDao.update(author);
-        return author.toString();
+
+    // gets author by id
+    @GetMapping(path = "/author/{id}")
+    String findById(@PathVariable Long id) {
+
+        Author author = authorService.findById(id);
+
+        return author != null ? author.toString() : "Nie znaleziono autora o podanym id " + id;
     }
-    @RequestMapping("/author/delete/{id}")
-    @ResponseBody
-    public String authorDelete(@PathVariable long id) {
-        Author author=authorDao.findById(id);
-        authorDao.delete(author);
-        return "deleted";
+
+    // updates author
+    @PutMapping(path = "/author/{id}")
+    void update(@PathVariable Long id, @RequestParam String firstName, @RequestParam String lastName) {
+
+        final Author author = authorService.findById(id);
+
+        if (Objects.nonNull(author)) {
+            author.setFirstName(firstName);
+            author.setLastName(lastName);
+
+            authorService.update(author);
+        }
+    }
+
+    // deletes author by id
+    @DeleteMapping(path = "/author/{id}")
+    void deleteById(@PathVariable Long id) {
+        authorService.deleteById(id);
     }
 }
