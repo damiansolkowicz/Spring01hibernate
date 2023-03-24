@@ -1,6 +1,7 @@
 package pl.coderslab.controller;
 
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.entity.Book;
 import pl.coderslab.entity.Publisher;
 import pl.coderslab.service.PublisherService;
 
@@ -16,7 +17,7 @@ class PublisherController {
         this.publisherService = publisherService;
     }
 
-    @PostMapping(path = "/publisher")
+    @PostMapping(path = "/publishers")
     void save(@RequestParam String name) {
 
         Publisher publisher = new Publisher();
@@ -26,7 +27,7 @@ class PublisherController {
         publisherService.save(publisher);
     }
 
-    @GetMapping(path = "/publisher/{id}", produces = "text/plain;charset=utf-8")
+    @GetMapping(path = "/publishers/{id}", produces = "text/plain;charset=utf-8")
     String findById(@PathVariable Long id) {
 
         Publisher publisher = publisherService.findById(id);
@@ -34,7 +35,7 @@ class PublisherController {
         return Objects.nonNull(publisher) ? publisher.toString() : "Nie znaleziono wydawcy o podanym id " + id;
     }
 
-    @PutMapping(path = "/publisher/{id}")
+    @PutMapping(path = "/publishers/{id}")
     void update(@PathVariable Long id, @RequestParam String name) {
 
         Publisher publisher = publisherService.findById(id);
@@ -47,8 +48,14 @@ class PublisherController {
         }
     }
 
-    @DeleteMapping(path = "/publisher/{id}")
+    @DeleteMapping(path = "/publishers/{id}")
     void deleteById(@PathVariable Long id) {
         publisherService.deleteById(id);
     }
-}
+    @GetMapping(path = "/publishers", produces = "text/plain;charset=utf-8")
+    String findAll() {
+
+        final List<Publisher> publishers = publisherService.findAll();
+        return  publishers.toString();
+    }
+    }

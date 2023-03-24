@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pl.coderslab.entity.Author;
+import pl.coderslab.entity.Book;
 import pl.coderslab.service.AuthorService;
 
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -60,5 +62,11 @@ class AuthorController {
     @DeleteMapping(path = "/author/{id}")
     void deleteById(@PathVariable Long id) {
         authorService.deleteById(id);
+    }
+    @GetMapping(path = "/authors", produces = "text/plain;charset=utf-8")
+    String findAll() {
+
+        final List<Author> authors = authorService.findAll();
+        return authors.toString();
     }
 }
