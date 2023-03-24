@@ -34,12 +34,11 @@ public class AppConfiguration {
                 new JpaTransactionManager(entityManagerFactory);
         return jpaTransactionManager;
     }
-
- InternalResourceViewResolver viewResolver(){
-        InternalResourceViewResolver viewResolver=new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views");
+    @Bean
+    InternalResourceViewResolver viewResolver(){
+        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
+        viewResolver.setPrefix("WEB-INF/views/");
         viewResolver.setSuffix(".jsp");
         return viewResolver;
     }
-
 }

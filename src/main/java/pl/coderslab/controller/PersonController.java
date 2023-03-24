@@ -17,7 +17,7 @@ public class PersonController {
 
 
     //create person
-    @PostMapping(path="/person")
+    @PostMapping(path="/person", produces = "text/plain;charset=utf-8")
     void save (@RequestParam String login, @RequestParam String password, @RequestParam String email){
         final Person person = new Person();
 
@@ -30,7 +30,7 @@ public class PersonController {
 
 
     //edycja
-    @PutMapping(path="person/{id}")
+    @PutMapping(path="person/{id}", produces = "text/plain;charset=utf-8")
     public void update(@PathVariable Long id, @RequestParam String login, @RequestParam String email, @RequestParam String password ){
         Person person = personService.findById(id);
 
@@ -50,12 +50,12 @@ public class PersonController {
     }
 
     //delete person by id
-    @DeleteMapping(path="person/{id}")
+    @DeleteMapping(path="person/{id}", produces = "text/plain;charset=utf-8")
     void deleteById(@PathVariable Long id){personService.deleteById(id);
     }
 
     //show form
-    @GetMapping(path="/form")
+    @GetMapping(path="/form", produces = "text/plain;charset=utf-8")
     String showForm(Model model){
         model.addAttribute("person", new Person());
         return "person";

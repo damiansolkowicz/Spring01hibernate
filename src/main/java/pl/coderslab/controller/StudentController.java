@@ -14,7 +14,7 @@ import java.util.List;
 @Controller
 public class StudentController {
 
-    @GetMapping("/studentsform")
+    @GetMapping("/studentform")
     String showStudentsForm(Model model){
         model.addAttribute("student", new Student());
         return "student";
