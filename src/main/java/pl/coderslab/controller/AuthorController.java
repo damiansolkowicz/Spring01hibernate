@@ -1,5 +1,8 @@
 package pl.coderslab.controller;
 
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,10 +14,11 @@ import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Book;
 import pl.coderslab.service.AuthorService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
-@RestController
+@Controller
 class AuthorController {
 
     private final AuthorService authorService;
@@ -22,17 +26,20 @@ class AuthorController {
     AuthorController(AuthorService authorService) {
         this.authorService = authorService;
     }
-
+    @GetMapping(path = "/author/form")
+    String showAddBookForm(Model model) {
+        model.addAttribute("author", new Author());
+        return "book/addAuthor";
+    }
     // creates author
-    @PostMapping(path = "/author")
-    void save(@RequestParam String firstName, @RequestParam String lastName) {
-
-        Author author = new Author();
-
-        author.setFirstName(firstName);
-        author.setLastName(lastName);
-
-        authorService.save(author);
+    @PostMapping(path = "/author/form")
+    String processAddBookForm(@Valid Author author, BindingResult errors) {
+        if(errors.hasErrors()){
+        return "book/addAuthor";
+        }else {
+            authorService.save(author);
+            return "redirect:/authors";
+        }
     }
 
     // gets author by id
