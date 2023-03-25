@@ -18,7 +18,7 @@ public class PublisherDao {
     private EntityManager entityManager;
 
     public void save(Publisher publisher) {
-        entityManager.persist(publisher);
+        entityManager.merge(publisher);
     }
 
     public void update(Publisher publisher) {

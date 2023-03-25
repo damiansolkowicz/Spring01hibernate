@@ -75,7 +75,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<Book> findNotEmptyPublisher(){
-        return bookDao.findNotEmptyPublisher();
+        return bookDao.findByPublisherIsNotNull();
     }
 
     @Override
