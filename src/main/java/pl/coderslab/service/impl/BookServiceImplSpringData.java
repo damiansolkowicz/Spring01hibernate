@@ -2,6 +2,7 @@
 package pl.coderslab.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import pl.coderslab.dao.BookDao;
 import pl.coderslab.entity.Author;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Primary
 public class BookServiceImplSpringData implements BookService {
 
     private final BookRepository bookRepository;
@@ -37,7 +39,7 @@ public class BookServiceImplSpringData implements BookService {
         authors.add(authorService.findById(2L));
         book.setAuthors(authors);
 
-        bookDao.save(book);
+        /*bookDao.save(book);*/
     }
 
     @Override
@@ -48,11 +50,46 @@ public class BookServiceImplSpringData implements BookService {
         bookEntity.setRating(book.getRating());
 
 
-
-        bookDao.save(bookEntity);
+/*
+        bookDao.save(bookEntity);*/
     }
 
     @Override
+    public void update(Book book) {
+
+    }
+
+    @Override
+    public Book findById(Long id) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAll() {
+        return null;
+    }
+
+    @Override
+    public List<Book> findByRating(int rating) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findNotEmptyPublisher() {
+        return null;
+    }
+
+    @Override
+    public List<Book> findByPublisher(Publisher publisher) {
+        return null;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
+   /* @Override
     public void update(Book book) {
         bookDao.update(book);
     }
@@ -85,5 +122,5 @@ public class BookServiceImplSpringData implements BookService {
     public void deleteById(Long id) {
         bookDao.deleteById(id);
     }
-
+*/
 }

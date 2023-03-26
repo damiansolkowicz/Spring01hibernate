@@ -1,4 +1,3 @@
-
 package pl.coderslab.service.impl;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +10,6 @@ import pl.coderslab.service.BookService;
 import pl.coderslab.service.PublisherService;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,6 +18,8 @@ public class BookServiceImpl implements BookService {
 
     private final BookDao bookDao;
     private final PublisherService publisherService;
+
+
     private final AuthorService authorService;
 
     public BookServiceImpl(BookDao bookDao, PublisherService publisherService, AuthorService authorService) {
@@ -30,27 +30,55 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void save(Book book) {
-        final Publisher publisher = book.getPublisher();
-        publisherService.save(publisher);
-
-        List<Author> authors = new ArrayList<>();
-        authors.add(authorService.findById(1L));
-        authors.add(authorService.findById(2L));
-        book.setAuthors(authors);
-
         bookDao.save(book);
     }
 
     @Override
-    public void save(pl.coderslab.model.Book book){
-        Book bookEntity = new Book();
-        bookEntity.setTitle(book.getTitle());
-        bookEntity.setDescription(book.getDescription());
-        bookEntity.setRating(book.getRating());
+    public void save(pl.coderslab.model.Book book) {
 
+    }
 
+    @Override
+    public Book findById(Long id) {
+        return bookDao.findById(id);
+        //Hibernate.initialize(book.getPublisher());
+        //Hibernate.initialize(book.getAuthors());
+        //return book;
+    }
 
-        bookDao.save(bookEntity);
+    @Override
+    public List<Book> findAll() {
+        return bookDao.findAll();
+    }
+
+    @Override
+    public List<Book> findByRating(int rating) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findNotEmptyPublisher() {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllByRating(int rating) {
+        return bookDao.findByRating(rating);
+    }
+
+    @Override
+    public List<Book> findByPublisherIsNotNull() {
+        return bookDao.findByPublisherIsNotNull();
+    }
+
+    @Override
+    public List<Book> findByPublisher(Publisher publisher) {
+        return bookDao.findByPublisher(publisher);
+    }
+
+    @Override
+    public List<Book> findByAuthor(Author author) {
+        return bookDao.findByAuthor(author);
     }
 
     @Override
@@ -59,32 +87,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book findById(Long id) {
-        return bookDao.findById(id);
-    }
-
-    @Override
-    public List<Book> findAll(){
-        return bookDao.findAll();
-    }
-
-    @Override
-    public List<Book> findByRating(int rating) {
-        return bookDao.findByRating(rating);
-    }
-
-    @Override
-    public List<Book> findNotEmptyPublisher(){
-        return bookDao.findByPublisherIsNotNull();
-    }
-
-    @Override
-    public List<Book> findByPublisher(Publisher publisher){
-        return bookDao.findByPublisher(publisher);
-    }
-    @Override
     public void deleteById(Long id) {
         bookDao.deleteById(id);
     }
-
 }
