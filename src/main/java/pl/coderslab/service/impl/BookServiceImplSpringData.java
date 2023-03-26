@@ -55,6 +55,11 @@ public class BookServiceImplSpringData implements BookService {
     }
 
     @Override
+    public List<Book> findByAuthor(Author author) {
+        return null;
+    }
+
+    @Override
     public void update(Book book) {
 
     }
@@ -76,6 +81,16 @@ public class BookServiceImplSpringData implements BookService {
 
     @Override
     public List<Book> findNotEmptyPublisher() {
+        return null;
+    }
+
+    @Override
+    public List<Book> findAllByRating(int rating) {
+        return null;
+    }
+
+    @Override
+    public List<Book> findByPublisherIsNotNull() {
         return null;
     }
 
